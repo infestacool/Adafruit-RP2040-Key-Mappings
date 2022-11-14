@@ -35,7 +35,7 @@ last_position = 0
 text_lines = macropad.display_text(title="        mute/volume >")
 text_lines[0].text = "Zmute   Zcamera sleep"
 text_lines[1].text = "left    down    right"
-text_lines[2].text = "<<        ▶         >>"
+text_lines[2].text = "<<    pause/play   >>"
 text_lines[3].text = "copy    paste    undo"
 text_lines.show()
 
