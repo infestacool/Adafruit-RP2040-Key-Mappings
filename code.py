@@ -1,7 +1,7 @@
 """
 KEY BINDINGS FOR ADAFRUIT RP2040 MACRO PAD
-0 = Zoom Mic Toggle
-1 = Zoom Camera Toggle
+0 = ZMic
+1 = ZCamera
 2 = Lock System
 3 = LEFT ARROW
 4 = DOWN ARROW
@@ -41,25 +41,26 @@ text_lines.show()
 
 # NeoPixels
 macropad.pixels.brightness = 0.1
-#rainbow = Rainbow(macropad.pixels, speed=0.5, period=2)
+rainbow = Rainbow(macropad.pixels, speed=0.1, period=15, step=2)
 #rainbow_chase = RainbowChase(macropad.pixels, speed=0.2, size=4, spacing=1)
-#rainbow_comet = RainbowComet(macropad.pixels, speed=0.2, tail_length=4, bounce=True)
+#rainbow_comet = RainbowComet(macropad.pixels, speed=0.2, tail_length=6, bounce=True)
 #rainbow_sparkle = RainbowSparkle(macropad.pixels, speed=0.3, num_sparkles=5)
 
-animations = AnimationSequence(
-    RainbowChase(macropad.pixels, speed=0.2, size=4, spacing=1),
-    #rainbow,
-    #rainbow_chase,
-    #rainbow_comet,
-    #rainbow_sparkle,
-    #advance_interval=10,
-    auto_clear=True,
-)
+#animations = AnimationSequence(
+#    RainbowChase(macropad.pixels, speed=0.2, size=4, spacing=1),
+#    rainbow,
+#    rainbow_chase,
+#    rainbow_comet,
+#    rainbow_sparkle,
+#    advance_interval=10,
+#    auto_clear=True,
+#)
 
 while True:
     key_event = macropad.keys.events.get()
-    animations.animate()
+    #animations.animate()
     #AnimationSequence(RainbowChase(macropad.pixels, speed=0.2, size=4, spacing=1)).animate()
+    rainbow.animate()
     if key_event:
         if key_event.pressed:
             macropad.pixels[key_event.key_number] = colorwheel(200)
@@ -72,9 +73,11 @@ while True:
         if key_event.pressed:
             if key_event.key_number == 0: #Toggle Zoom Mic
                 macropad.keyboard.press(macropad.Keycode.SHIFT, macropad.Keycode.COMMAND, macropad.Keycode.A)
+                macropad.pixels.brightness = 0.0
                 macropad.keyboard.release_all()
             if key_event.key_number == 1: #Toggle Zoom Camera
                 macropad.keyboard.press(macropad.Keycode.SHIFT, macropad.Keycode.COMMAND, macropad.Keycode.V)
+                macropad.pixels.brightness = 0.0
                 macropad.keyboard.release_all()
             if key_event.key_number == 2: #Lock System
                 macropad.keyboard.press(macropad.Keycode.CONTROL, macropad.Keycode.COMMAND, macropad.Keycode.Q)
@@ -101,13 +104,13 @@ while True:
                 macropad.ConsumerControlCode.SCAN_NEXT_TRACK
                 )
             if key_event.key_number == 9: #COPY
-                macropad.keyboard.press(macropad.Keycode.CONTROL, macropad.Keycode.C)
+                macropad.keyboard.press(macropad.Keycode.COMMAND, macropad.Keycode.C)
                 macropad.keyboard.release_all()
             if key_event.key_number == 10: #PASTE
-                macropad.keyboard.press(macropad.Keycode.CONTROL, macropad.Keycode.V)
+                macropad.keyboard.press(macropad.Keycode.COMMAND, macropad.Keycode.V)
                 macropad.keyboard.release_all()
             if key_event.key_number == 11: #UNDO
-                macropad.keyboard.press(macropad.Keycode.CONTROL, macropad.Keycode.Z)
+                macropad.keyboard.press(macropad.Keycode.COMM, macropad.Keycode.Z)
                 macropad.keyboard.release_all()
 
     macropad.encoder_switch_debounced.update()
@@ -116,6 +119,8 @@ while True:
         macropad.consumer_control.send(
         macropad.ConsumerControlCode.MUTE
                 )
+        macropad.pixels.brightness = 0.1
+
 
     current_position = macropad.encoder
 
