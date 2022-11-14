@@ -44,7 +44,7 @@ macropad.pixels.brightness = 0.5
 rainbow = Rainbow(macropad.pixels, speed=0.1, period=15, step=2)
 rainbow_chase = RainbowChase(macropad.pixels, speed=0.3, size=1, spacing=0, step=24, reverse=False)
 rainbow_comet = RainbowComet(macropad.pixels, speed=0.2, tail_length=3, colorwheel_offset=85, bounce=True,)
-rainbow_sparkle = RainbowSparkle(macropad.pixels, speed=0.5, num_sparkles=4, period=30, step=1)
+rainbow_sparkle = RainbowSparkle(macropad.pixels, speed=0.4, num_sparkles=4, period=30, step=12)
 
 #animations = AnimationSequence(
 #    RainbowChase(macropad.pixels, speed=0.2, size=4, spacing=1),
