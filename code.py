@@ -1,8 +1,8 @@
 """
 KEY BINDINGS FOR ADAFRUIT RP2040 MACRO PAD
-0 = ZMic
-1 = ZCamera
-2 = Lock System
+0 = Zoom Mute Toggle
+1 = Zoom Camrea Toggle
+2 = Sleep Display
 3 = LEFT ARROW
 4 = DOWN ARROW
 5 = RIGHT ARROW
@@ -33,18 +33,18 @@ last_position = 0
 
 # Text of Display "                     "
 text_lines = macropad.display_text(title="        mute/volume >")
-text_lines[0].text = "Zmute   Zcamera  lock"
+text_lines[0].text = "Zmute   Zcamera sleep"
 text_lines[1].text = "left    down    right"
-text_lines[2].text = "<<   pause/play    >>"
+text_lines[2].text = "<<        ▶         >>"
 text_lines[3].text = "copy    paste    undo"
 text_lines.show()
 
 # NeoPixels
-macropad.pixels.brightness = 0.1
+macropad.pixels.brightness = 0.5
 rainbow = Rainbow(macropad.pixels, speed=0.1, period=15, step=2)
-#rainbow_chase = RainbowChase(macropad.pixels, speed=0.2, size=4, spacing=1)
-#rainbow_comet = RainbowComet(macropad.pixels, speed=0.2, tail_length=6, bounce=True)
-#rainbow_sparkle = RainbowSparkle(macropad.pixels, speed=0.3, num_sparkles=5)
+rainbow_chase = RainbowChase(macropad.pixels, speed=0.3, size=1, spacing=0, step=24, reverse=False)
+rainbow_comet = RainbowComet(macropad.pixels, speed=0.2, tail_length=3, colorwheel_offset=85, bounce=True,)
+rainbow_sparkle = RainbowSparkle(macropad.pixels, speed=0.5, num_sparkles=4, period=30, step=1)
 
 #animations = AnimationSequence(
 #    RainbowChase(macropad.pixels, speed=0.2, size=4, spacing=1),
@@ -60,7 +60,10 @@ while True:
     key_event = macropad.keys.events.get()
     #animations.animate()
     #AnimationSequence(RainbowChase(macropad.pixels, speed=0.2, size=4, spacing=1)).animate()
-    rainbow.animate()
+    #rainbow.animate()
+    #rainbow_comet.animate()
+    #rainbow_chase.animate()
+    rainbow_sparkle.animate()
     if key_event:
         if key_event.pressed:
             macropad.pixels[key_event.key_number] = colorwheel(200)
@@ -79,8 +82,9 @@ while True:
                 macropad.keyboard.press(macropad.Keycode.SHIFT, macropad.Keycode.COMMAND, macropad.Keycode.V)
                 macropad.pixels.brightness = 0.0
                 macropad.keyboard.release_all()
-            if key_event.key_number == 2: #Lock System
-                macropad.keyboard.press(macropad.Keycode.CONTROL, macropad.Keycode.COMMAND, macropad.Keycode.Q)
+            if key_event.key_number == 2: #Sleep Display 
+                macropad.pixels.brightness = 0.0
+                macropad.keyboard.press(macropad.Keycode.OPTION, macropad.Keycode.COMMAND, macropad.Keycode.POWER)
                 macropad.keyboard.release_all()
             if key_event.key_number == 3: #LEFT ARROW
                 macropad.keyboard.press(macropad.Keycode.LEFT_ARROW)
@@ -119,7 +123,7 @@ while True:
         macropad.consumer_control.send(
         macropad.ConsumerControlCode.MUTE
                 )
-        macropad.pixels.brightness = 0.1
+        macropad.pixels.brightness = 0.5
 
 
     current_position = macropad.encoder
