@@ -1,14 +1,28 @@
 KEY BINDINGS FOR ADAFRUIT RP2040 MACRO PAD
+
 0 = Zoom Mute Toggle
+
 1 = Zoom Camrea Toggle
+
 2 = Sleep Display
+
 3 = LEFT ARROW
+
 4 = DOWN ARROW
+
 5 = RIGHT ARROW
+
 6 = PREVIOUS TRACK
+
 7 = PAUSE/PLAY
+
 8 = NEXT TRACK
+
 9 = COPY
+
 10 = PASTE
+
 11 = UNDO
+
 ENCODER = VOLUME/MUTE
+
