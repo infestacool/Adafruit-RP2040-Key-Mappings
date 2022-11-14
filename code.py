@@ -1,8 +1,8 @@
 """
 KEY BINDINGS FOR ADAFRUIT RP2040 MACRO PAD
-0 = SPOTIFY (CTRL + ALT + S)
-1 = UP ARROW
-2 = DISCORD (CTRL + ALT + D)
+0 = Zoom Mic Toggle
+1 = Zoom Camera Toggle
+2 = Lock System
 3 = LEFT ARROW
 4 = DOWN ARROW
 5 = RIGHT ARROW
@@ -17,39 +17,67 @@ ENCODER = VOLUME/MUTE
 from adafruit_macropad import MacroPad
 from adafruit_hid.consumer_control_code import ConsumerControlCode
 from rainbowio import colorwheel
+from adafruit_led_animation.animation.rainbow import Rainbow
+from adafruit_led_animation.animation.rainbowchase import RainbowChase
+from adafruit_led_animation.animation.rainbowcomet import RainbowComet
+from adafruit_led_animation.animation.rainbowsparkle import RainbowSparkle
+from adafruit_led_animation.sequence import AnimationSequence
 import os
+
 
 macropad = MacroPad()
 
-tone = 250
+
+tone = 131
 last_position = 0
 
-macropad.display_image("mateo.bmp")
+# Text of Display "                     "
+text_lines = macropad.display_text(title="        mute/volume >")
+text_lines[0].text = "Zmute   Zcamera  lock"
+text_lines[1].text = "left    down    right"
+text_lines[2].text = "<<   pause/play    >>"
+text_lines[3].text = "copy    paste    undo"
+text_lines.show()
+
+# NeoPixels
+macropad.pixels.brightness = 0.1
+#rainbow = Rainbow(macropad.pixels, speed=0.5, period=2)
+#rainbow_chase = RainbowChase(macropad.pixels, speed=0.2, size=4, spacing=1)
+#rainbow_comet = RainbowComet(macropad.pixels, speed=0.2, tail_length=4, bounce=True)
+#rainbow_sparkle = RainbowSparkle(macropad.pixels, speed=0.3, num_sparkles=5)
+
+animations = AnimationSequence(
+    RainbowChase(macropad.pixels, speed=0.2, size=4, spacing=1),
+    #rainbow,
+    #rainbow_chase,
+    #rainbow_comet,
+    #rainbow_sparkle,
+    #advance_interval=10,
+    auto_clear=True,
+)
 
 while True:
     key_event = macropad.keys.events.get()
+    animations.animate()
+    #AnimationSequence(RainbowChase(macropad.pixels, speed=0.2, size=4, spacing=1)).animate()
     if key_event:
         if key_event.pressed:
             macropad.pixels[key_event.key_number] = colorwheel(200)
             macropad.start_tone(tone)
-
         else:
             macropad.pixels.fill((0, 0, 0))
             macropad.stop_tone()
 
     if key_event:
         if key_event.pressed:
-            if key_event.key_number == 0: #OPEN SPOTIFY
-                #os.system('"C:/Users/Nico/Desktop/Spotify/Spotify.exe"')
-                macropad.keyboard.press(macropad.Keycode.CONTROL, macropad.Keycode.ALT, macropad.Keycode.S)
+            if key_event.key_number == 0: #Toggle Zoom Mic
+                macropad.keyboard.press(macropad.Keycode.SHIFT, macropad.Keycode.COMMAND, macropad.Keycode.A)
                 macropad.keyboard.release_all()
-            if key_event.key_number == 1: #UP ARROW
-                macropad.keyboard.press(macropad.Keycode.UP_ARROW)
+            if key_event.key_number == 1: #Toggle Zoom Camera
+                macropad.keyboard.press(macropad.Keycode.SHIFT, macropad.Keycode.COMMAND, macropad.Keycode.V)
                 macropad.keyboard.release_all()
-                #macropad.keyboard.press(macropad.Keycode.CONTROL, macropad.Keycode.ALT, macropad.Keycode.D)
-                #macropad.keyboard.release_all()
-            if key_event.key_number == 2: #OPEN DISCORD
-                macropad.keyboard.press(macropad.Keycode.CONTROL, macropad.Keycode.ALT, macropad.Keycode.D)
+            if key_event.key_number == 2: #Lock System
+                macropad.keyboard.press(macropad.Keycode.CONTROL, macropad.Keycode.COMMAND, macropad.Keycode.Q)
                 macropad.keyboard.release_all()
             if key_event.key_number == 3: #LEFT ARROW
                 macropad.keyboard.press(macropad.Keycode.LEFT_ARROW)
