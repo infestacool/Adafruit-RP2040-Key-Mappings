@@ -1,8 +1,7 @@
-# Adafruit-RP2040-Key-Mappings
 KEY BINDINGS FOR ADAFRUIT RP2040 MACRO PAD
 0 = Zoom Mute Toggle
-1 = Zoom Camera Toggle
-2 = Lock System
+1 = Zoom Camrea Toggle
+2 = Sleep Display
 3 = LEFT ARROW
 4 = DOWN ARROW
 5 = RIGHT ARROW
